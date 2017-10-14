@@ -969,7 +969,7 @@ PCA_genCaseData[58:60,]%<>% mutate(complain = c("Germany", "Great Britain", "Ita
                                    complain_cowc =countrycode(c("Germany", "Great Britain", "Italy"),"country.name", "cowc"))
 ```
 
-Finally, we expor the data.
+Finally, we export the data.
 
 ```{r}
 ## Export it

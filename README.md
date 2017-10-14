@@ -2,7 +2,6 @@
 José M. Reis
 (4/10/2017)
 
-
 # Pulling PCA data
 
 In this session we will extract general case and procedural transparency data from PCA's pulbic dispute repository. The PCA Case Repository contains a full listing of cases commenced since 1996 in respect of which the parties have agreed to publication. In addition, the PCA continues to make information about further public cases since 1902 available on the PCA Case Repository (https://www.pcacases.com/web/allcases/).
@@ -950,7 +949,7 @@ PCA_genCaseData[58:60,]%<>% mutate(complain = c("Germany", "Great Britain", "Ita
                                    complain_cowc =countrycode(c("Germany", "Great Britain", "Italy"),"country.name", "cowc"))
 ```
 
-Finally, we expor the data.
+Finally, we export the data.
 
 ```{r}
 ## Export it
@@ -960,5 +959,5 @@ save(PCA_procTransp,
 write.csv(PCA_procTransp,
           file="data/PCA_procTranspv3.csv")
 
-######################################### END ###################################
+######################################### END ############################
 ```
