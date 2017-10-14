@@ -117,7 +117,6 @@ URL_container <- c(rep(NA, 122))
 uglyPat <- c("\\\n", "\\\t", "\\s+\\\t", "\\s+\\\n", "\\\n\\\t", "\\s+")
 
 ### start the loop
-
 for (i in 1:nrow(PCA_genCaseData)) {
   
   ## *** store the interm containers for debugging ***
@@ -326,7 +325,6 @@ PCA_genCaseData <- PCA_genCaseData%>%
          yearConc = year(dateConc))
 
 ### Handcoding the missing observations in the complain and resp variables in PCA_genCaseData
-##handcode based on inter_df
 PCA_genCaseData$complain[PCA_genCaseData$id==117] <- "Italy"
 PCA_genCaseData$resp[PCA_genCaseData$id==117] <- "India"
 PCA_genCaseData$complain[PCA_genCaseData$id==132] <- "The Democratic Republic of Timor-Leste"
@@ -474,7 +472,6 @@ PCA_genCaseData <- PCA_genCaseData %>%
 PCA_genCaseData <- PCA_genCaseData %>%  
   mutate(typeOfResp = replace(typeOfResp, which(id == 91), "Other"))
 
-
 PCA_genCaseData <- PCA_genCaseData %>%  
   mutate(typeOfResp = replace(typeOfResp, which(resp == "Republic of Slovenia"), "State"),
          resp_cowc = replace(resp_cowc, which(resp == "Republic of Slovenia"), "SLV"),
@@ -492,7 +489,6 @@ PCA_genCaseData <- PCA_genCaseData %>%
          resp_cowc = replace(resp_cowc, which(str_detect(resp, "Serbia")), "SRB"),
          typeOfComplain = replace(typeOfComplain, which(str_detect(complain, "Serbia")), "State"),
          complain_cowc = replace(complain_cowc, which(str_detect(complain, "Serbia")), "SRB"))  
-
 
 PCA_genCaseData <- PCA_genCaseData %>% 
   mutate(typeOfResp = replace(typeOfResp, which(resp == "The Commonwealth of Australia"), "State"),
@@ -513,9 +509,9 @@ PCA_genCaseData <- PCA_genCaseData%>%
 
 ## export it
 save(PCA_genCaseData,
-     file="data/PCA_genCaseData_v2.RData")
+     file="data/PCA_genCaseDatav2.RData")
 write.csv(PCA_genCaseData, 
-          file="data/PCA_genCaseData_v2.csv")
+          file="data/PCA_genCaseDatav2.csv")
 
 
 #########################################################################
@@ -531,7 +527,7 @@ write.csv(PCA_genCaseData,
 
 ## "NoteOfSubmission": dummy variable indicating whether or not the "notice of submission" was published in the repository. *** DONE ***
 
-## "writtenSubmission": dummy variable indicating whether or not written submissions made by the parties were published in the repository.Written submissions are crucial parts of the dispute. Still, you must control for the possibility that they never reached that level. This could be done by checking (i) length of dispute (dateCom - dateConc) and (ii) if a decision was reched. Later, inspect the procedural orders.  *** DONE ***
+## "writtenSubmission": dummy variable indicating whether or not written submissions made by the parties were published in the repository.Written submissions are crucial parts of the dispute. Still, we must control for the possibility that they never reached this stage. This could be done by checking (i) length of dispute (dateCom - dateConc) and (ii) if a decision was reached. Later, inspect the procedural orders.  *** DONE ***
 
 ## "WrittenSub_count": count value of all the written submissions published by at the repository. The remarks above also apply. Furthermore, and this is crucial, beware of the possibility of translations!!! Either (i) extract only one language for all cases or (ii) use regex to extract identifiers of translations (e.g. (spanish) or (russian)). *** still missing!!! ***
 
