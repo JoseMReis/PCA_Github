@@ -12,7 +12,6 @@
 
 #### Load the relevant packages--------------------------------------------------------------
 
-require(XML)
 require(stringr)
 require(rvest)
 require(tidyverse)

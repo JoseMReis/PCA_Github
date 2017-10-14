@@ -28,7 +28,7 @@ In this session we will extract general case and procedural transparency data fr
 
 ### Start
 
-First, we load the relevant packages. The "XML" and the "rvest" packages will be used for parsing XML/HTML objects. "RCurl" for managing HTTP requests. The package "xlsx" will come in hand in the making of intermediate datasets with the raw extracted data (for hand checking its quality). Tidyverse packages, namely "dplyr", "stringr"", and "lubridate" will mostly be used for shapping up the extracted content.
+First, we load the relevant packages. The "rvest" packages will be used for parsing and extracting nodes from the HTML objects. "RCurl" for managing HTTP requests. The package "xlsx" will come in hand in the making of intermediate datasets with the raw extracted data (for hand checking its quality). Tidyverse packages, namely "dplyr", "stringr"", and "lubridate" will mostly be used for shapping up the extracted content. Finally, "magritrr" and "countrycode" will be used for tidying upt the dataset.
 
 ```{r}
 ################################################################################
@@ -44,14 +44,14 @@ First, we load the relevant packages. The "XML" and the "rvest" packages will be
 ################################################################################
 
 #### Load the relevant packages--------------------------------------------------------------
-
-require(XML)
 require(stringr)
 require(rvest)
 require(tidyverse)
 require(lubridate)
 require(RCurl)
 require(xlsx)
+require(countrycode)
+require(magrittr)
 ```
 
 
