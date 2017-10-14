@@ -1,0 +1,121 @@
+---
+title: 'PCA Disputes: Pulling General Case and Procedural Transparency Data'
+author: "J. M. Reis"
+date: "14/10/2017"
+output: 
+html_document: 
+  keep_md: yes
+  toc: yes
+pdf_document:
+  highlight: yes
+  toc: yes
+  number_sections: yes
+---
+<meta charset="utf-8">
+
+[//]: # (Changing the default text allignment to justified on both sides. Btw, this is how you make comments in Rmd!)
+<style>
+body {text-align: justify}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, eval = FALSE)
+```
+
+# Pulling PCA data
+
+In this session we will extract general case and procedural transparency data from PCA's pulbic dispute repository. The PCA Case Repository contains a full listing of cases commenced since 1996 in respect of which the parties have agreed to publication. In addition, the PCA continues to make information about further public cases since 1902 available on the PCA Case Repository (https://www.pcacases.com/web/allcases/).
+
+### Start
+
+First, we load the relevant packages. The "XML" and the "rvest" packages will be used for parsing XML/HTML objects. "RCurl" for managing HTTP requests. The package "xlsx" will come in hand in the making of intermediate datasets with the raw extracted data (for hand checking its quality). Tidyverse packages, namely "dplyr", "stringr"", and "lubridate" will mostly be used for shapping up the extracted content.
+
+```{r}
+################################################################################
+
+### Author: J. M. Reis
+
+### Date: 
+(dateOfAccess <- Sys.Date())
+
+#14-10-2017
+### Purpose: Extracting and cleaning general case data and procedural transparency data for all disputes at the PCA
+
+################################################################################
+
+#### Load the relevant packages--------------------------------------------------------------
+
+require(XML)
+require(stringr)
+require(rvest)
+require(tidyverse)
+require(lubridate)
+require(RCurl)
+require(xlsx)
+```
+
+
+## Pulling general case data
+
+The general extraction strategy for obtaining general case data is to first extract the case id's from the web links encoded in the main page. Then use those case id's to loop around the case specific pages extracting general case information.
+
+### Pull the case id's
+
+At the website which lists all the cases ("https://pca-cpa.org/en/cases/"), the HTML code reveals that the id numbers for each code are stored as href links in anchor tags. Parse the page and use a xpath query to extract the id's. Obviously, there will be more links than those refering to the cases. So we will use regex and string manipulation to keep just the case id's.
+
+```{r}
+id_raw <- RCurl::getURL("https://pca-cpa.org/en/cases/") %>%
+  read_html() %>%
+  html_nodes(xpath = "//a[@href]") %>%
+  html_attrs()
+## find the non id's
+not_id <- id_raw %>%
+  str_detect(pattern = "\\d{1,3}")
+## all the sublists > 18 and <139
+id_raw <- id_raw[c(18:139)]
+## remove the href and "/" and assign it to a vector
+id_raw <- str_extract(id_raw, pattern="\\d{1,3}")
+
+```
+
+Next, we create a data frame with the id vector composing the id variable.
+
+```{r}
+PCA_genCaseData <- data.frame(id = id_raw)
+```
+
+Now, we can begin the extraction for the general case data using the id's. From now on, I will resort to another PCA case repository (https://www.pcacases.com/web/allcases/), simply for being less java injected and easier to scrape.
+
+### Pull the case titles
+
+Using the relevant css selector we pull and clean the case titles. Next, we add it to the data frame with the variable name of title.
+
+```{r}
+title_raw <- RCurl::getURL("https://www.pcacases.com/web/allcases/") %>%
+  read_html() %>%
+  html_nodes(css = ".allCasesItems") %>%
+  html_text()
+
+### clean it
+title <- title_raw %>%
+  str_extract("\\:(.*)") %>%
+  str_replace("\\:", "") %>%
+  str_trim()
+
+### "title". Variable which represents the title of the case as adopted by the PCA. New var name------ > "title"
+
+PCA_genCaseData <- PCA_genCaseData %>%
+  mutate(title = title)
+
+```
+
+
+### Pull data on complainant and respondant
+
+Information on the complainant and the respondant can be found at the case specific pages from the https://www.pcacases.com/web/view/. This is the static part of the URL. To access to the case specific pages we just have to add the case id and some other components "/view/149". So this website would be https://www.pcacases.com/web/view/149. Then we will loop across each case specific page
+
+```{r}
+
+```
+
+
