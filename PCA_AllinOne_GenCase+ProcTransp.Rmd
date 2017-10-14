@@ -110,7 +110,7 @@ PCA_genCaseData <- PCA_genCaseData %>%
 ```
 
 
-### Pulling data the available general case data
+### Pulling the available general case data
 
 In particular:
 * "**complain**" - the complainant
