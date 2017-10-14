@@ -124,11 +124,11 @@ for (i in 1:nrow(PCA_genCaseData)) {
   URL_container[i] <- paste0(staticURL, dynURL[i])
   
   ## *** complainant***
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>%
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>%
     read_html() %>%
     html_node(cssComplain) %>%
     html_text() %>%
-    str_replace_all(uglyPat, "") %>% # remove ugly encoding
+    str_replace_all(paste(uglyPat, collapse = "|"), " ") %>% # remove ugly encoding
     str_trim()
   
   # deal with empty strings
@@ -137,11 +137,11 @@ for (i in 1:nrow(PCA_genCaseData)) {
   print(paste0("For the case with id: ", dynURL[i], ". The complainant was ", complain_container[i]))
   
   ##*** respondant ***
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>%
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>%
     read_html() %>%
     html_node(css = cssResp) %>%
     html_text() %>%
-    str_replace_all(uglyPat, "") %>%# idem
+    str_replace_all(paste(uglyPat, collapse = "|"), " ") %>%# idem
     str_trim()
   
   # deal with empty strings
@@ -151,11 +151,11 @@ for (i in 1:nrow(PCA_genCaseData)) {
   
   ## *** status data ***
   
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>% 
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>% 
     read_html() %>% 
     html_nodes(cssStatus) %>% 
     html_text() %>% 
-    str_replace_all(uglyPat, replacement="")%>%
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement=" ")%>%
     str_trim()
   
   # conditional assignment for the empty nodes (no info on status)
@@ -164,37 +164,37 @@ for (i in 1:nrow(PCA_genCaseData)) {
   print(paste0("The case id: ", dynURL[i], " gets status: ", status_container[i]))
   
   ## *** dateCom ***
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>% 
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i])) %>% 
     read_html() %>% 
     html_nodes(cssDateCom) %>% 
     html_text()%>% 
-    str_replace_all(uglyPat, replacement="")%>%
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement=" ")%>%
     str_trim()
-    
+  
   # test if character(0)
   ifelse(nchar(x) < 1 | length(x)==0, dateCom_container[i] <- NA, dateCom_container[i] <- x)
   
   print(paste0("The case id: ", dynURL[i], " gets dateCom: ", dateCom_container[i]))
   
   ## *** dateConc***
-    x<- RCurl::getURL(paste0(staticURL, dynURL[i]))%>% 
+  x<- RCurl::getURL(paste0(staticURL, dynURL[i]))%>% 
     read_html() %>% 
     html_nodes(cssDateConc) %>% 
-    html_text()%>% 
-    str_replace_all(uglyPat, replacement="")%>%
+    html_text()%>%  
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement=" ")%>%
     str_trim()
   
   # test if character(0)
   ifelse(nchar(x) < 1 | length(x)==0, dateConc_container[i] <- NA, dateConc_container[i] <- x)
-
+  
   print(paste0("The case id: ", dynURL[i], " gets dateConc: ", dateConc_container[i]))
   
   ## *** type of dispute **
-    x<- RCurl::getURL(paste0(staticURL, dynURL[i]))%>% 
+  x<- RCurl::getURL(paste0(staticURL, dynURL[i]))%>% 
     read_html() %>% 
     html_nodes(cssType) %>% 
     html_text()%>%
-    str_replace_all(uglyPat, replacement = "")%>%
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement = " ")%>%
     str_trim()
   
   # test if character(0)
@@ -203,11 +203,11 @@ for (i in 1:nrow(PCA_genCaseData)) {
   print(paste0("The case id: ", dynURL[i], " gets type of disp.: ", type_container[i]))
   
   ## *** Adopted procedural rules ***
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i]))%>%
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i]))%>%
     read_html() %>% 
     html_nodes(cssProcRules) %>% 
     html_text()%>%
-    str_replace_all(uglyPat, replacement = "")%>%
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement = " ")%>%
     str_trim()
   
   # test if character(0)
@@ -216,11 +216,11 @@ for (i in 1:nrow(PCA_genCaseData)) {
   print(paste0("The case id: ", dynURL[i], " gets proc. rule: ", procRules_container[i]))
   
   ## *** subj ***
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i]))%>%
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i]))%>%
     read_html() %>% 
     html_nodes(cssSubj) %>% 
     html_text()%>%
-    str_replace_all(uglyPat, replacement = "")%>%
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement = " ")%>%
     str_trim()
   
   # test if character(0)
@@ -229,15 +229,15 @@ for (i in 1:nrow(PCA_genCaseData)) {
   print(paste0("The case id: ", dynURL[i], " gets subj.: ", subj_container[i]))
   
   ## *** treaty ***
-    x <- RCurl::getURL(paste0(staticURL, dynURL[i]))%>%
+  x <- RCurl::getURL(paste0(staticURL, dynURL[i]))%>%
     read_html() %>% 
     html_nodes(cssTreaty) %>% 
     html_text()%>%
-    str_replace_all(uglyPat, replacement = "")%>%
-      gsub(pattern = "\n", replacement="", fixed=TRUE) %>% # remove the messy encoding
-      gsub(pattern = "\t", replacement="", fixed=TRUE) %>%
-      gsub(pattern = "\\s+", replacement = " ") %>% # large space between category of treaty and treaty
-      str_trim()
+    str_replace_all(paste(uglyPat, collapse = "|"), replacement = " ")%>%
+    gsub(pattern = "\n", replacement="", fixed=TRUE) %>% # remove the messy encoding
+    gsub(pattern = "\t", replacement="", fixed=TRUE) %>%
+    gsub(pattern = "\\s+", replacement = " ") %>% # large space between category of treaty and treaty
+    str_trim()
   
   # test if character(0)
   ifelse(nchar(x) < 1 | length(x)==0, treaty_container[i]<- NA, treaty_container[i] <- x)
