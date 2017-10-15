@@ -2,6 +2,10 @@
 José M. Reis
 (14/10/2017)
 
+## Disclaimer
+
+The data is still in a preliminary stage. Before using it please contact me (jose.reis@ile-graduateschool.de).
+
 # Pulling PCA data
 
 In this session we will extract general case and procedural transparency data from PCA's pulbic dispute repository. The PCA Case Repository contains a full listing of cases commenced since 1996 in respect of which the parties have agreed to publication. In addition, the PCA continues to make information about further public cases since 1902 available on the PCA Case Repository (https://www.pcacases.com/web/allcases/).
