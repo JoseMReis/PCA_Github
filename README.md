@@ -1,5 +1,5 @@
 # PCA Disputes: Pulling General Case and Procedural Transparency Data
-José M. Reis
+JosÃ© M. Reis
 (14/10/2017)
 
 # Pulling PCA data
@@ -11,7 +11,7 @@ In this session we will extract general case and procedural transparency data fr
 First, we load the relevant packages. The "rvest" packages will be used for parsing and extracting nodes from the HTML objects. "RCurl" for managing HTTP requests. The package "xlsx" will come in hand in the making of intermediate datasets with the raw extracted data (for hand checking its quality). Tidyverse packages, namely "dplyr", "stringr"", and "lubridate" will mostly be used for shapping up the extracted content. Finally, "magritrr" and "countrycode" will be used for tidying upt the dataset.
 
 ```{r}
-################################################################################
+#####################################################################################################################################
 
 ### Author: J. M. Reis
 
@@ -21,7 +21,7 @@ First, we load the relevant packages. The "rvest" packages will be used for pars
 #14-10-2017
 ### Purpose: Extracting and cleaning general case data and procedural transparency data for all disputes at the PCA
 
-################################################################################
+######################################################################################################################################
 
 #### Load the relevant packages--------------------------------------------------------------
 require(stringr)
@@ -959,5 +959,5 @@ save(PCA_procTransp,
 write.csv(PCA_procTransp,
           file="data/PCA_procTranspv3.csv")
 
-######################################### END ############################
+#################################################### END ##############################################################################
 ```
