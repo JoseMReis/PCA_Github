@@ -4,7 +4,7 @@ José M. Reis
 
 ## Disclaimer
 
-The data is still in a preliminary stage. Before using it please contact me (jose.reis@ile-graduateschool.de).
+The data is still in a preliminary stage. Please contact me before using it (jose.reis@ile-graduateschool.de).
 
 # Pulling PCA data
 
